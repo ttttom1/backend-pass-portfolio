@@ -61,14 +61,26 @@ class EventJoinWithExternalApiUpdateFacadeTest {
             return Chapter4Fixture.createTestParticipant(testEvent, testMember);
         }).when(eventJoinService).joinEventWithTransaction(any(), any());
 
+        // 50% 확률 대신, 홀수 번째 호출은 성공하고 짝수 번째는 실패하도록 명시적 제어
         doAnswer(invocation -> {
-            updateExternalIdCallCount.incrementAndGet();
-            if (Math.random() >= 0.5) {  // 50% 확률로 실패
+            int currentCount = updateExternalIdCallCount.incrementAndGet();
+            if (currentCount % 2 == 1) { // 홀수 번째 성공
                 updateExternalIdSuccessCount.incrementAndGet();
                 return null;
             }
             throw new RuntimeException("DB 업데이트 실패 시뮬레이션");
         }).when(eventJoinService).updateExternalId(any(), any());
+
+//        doAnswer(invocation -> {
+//            updateExternalIdCallCount.incrementAndGet();
+//            if (Math.random() >= 0.5) {  // 50% 확률로 실패
+//                updateExternalIdSuccessCount.incrementAndGet();
+//                return null;
+//            }
+//            throw new RuntimeException("DB 업데이트 실패 시뮬레이션");
+//        }).when(eventJoinService).updateExternalId(any(), any());
+
+
 
         doAnswer(invocation -> {
             externalApiCallCount.incrementAndGet();
