@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class BackendportfolioApplication {
     public static void main(String[] args) {
         //ttttom1
-        System.out.println("Go nailed it!TTTTom");
+        System.out.println("Third Tries");
         SpringApplication.run(BackendportfolioApplication.class, args);
     }
 
